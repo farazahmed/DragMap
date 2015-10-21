@@ -11,9 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.google.android.gms.maps.model.LatLng;
-
 public class MainActivity extends AppCompatActivity implements LocationListener{
     private AlertDialog locationAlertDialog;
 
@@ -149,4 +147,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     public void setLatLng(LatLng latLng) {
         this.latLng = latLng;
     }
+
+
 }

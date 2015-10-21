@@ -18,10 +18,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.victor.loading.rotate.RotateLoading;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 
 
 public class MapFragment extends Fragment implements  GoogleMap.OnMarkerDragListener{
@@ -30,9 +33,11 @@ public class MapFragment extends Fragment implements  GoogleMap.OnMarkerDragList
     private GoogleMap mMap;
     private Address address;
     MainActivity mainActivity;
+    RotateLoading rotateLoading;
     public MapFragment() {
 
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,11 +79,13 @@ public class MapFragment extends Fragment implements  GoogleMap.OnMarkerDragList
         setUpView();
         setUpMapIfNeeded();
         getMap().setOnMarkerDragListener(this);
-        loadMyLocation();
+        new GetUserCurrentLocation().execute();
+
     }
 
     private void setUpView() {
         txt_address = (EditText) view.findViewById(R.id.txt_address);
+        rotateLoading = (RotateLoading)view.findViewById(R.id.rotateloading);
         txt_address.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -192,5 +199,32 @@ public class MapFragment extends Fragment implements  GoogleMap.OnMarkerDragList
         }
 
     }
+
+    private class GetUserCurrentLocation extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            rotateLoading.start();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            loadMyLocation();
+            rotateLoading.stop();
+
+        }
+    }
+
 
 }
