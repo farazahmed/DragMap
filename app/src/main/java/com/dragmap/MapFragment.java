@@ -244,4 +244,31 @@ public class MapFragment extends Fragment implements  GoogleMap.OnMarkerDragList
     }
 
 
+    private class GetUserCurrentLocation extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            rotateLoading.start();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            loadMyLocation();
+            rotateLoading.stop();
+
+        }
+    }
+
+
 }
